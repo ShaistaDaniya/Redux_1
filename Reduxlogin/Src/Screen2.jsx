@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     width: 223,
     height: 64,
     flex: 0,
-    order: 0,
+    
     flexGrow: 0,
   },
   register: {
@@ -109,7 +109,7 @@ const Screen2 = () => {
   return (
     <TouchableOpacity style={styles.container} onPress={handleTap}>
       <View style={styles.container}>
-      <Images
+      <Image
       style={styles.logo}
       source={require('./FINAL-GAT-LOGO-DARK.png')}
     />
