@@ -11,4 +11,6 @@ go to file and open project select andriod folder of your selected project let i
 In terminal
 1) npx react-native run-android
 2) npm start
+3) a (for getting app ready)
+4) r (for reloading)
 
