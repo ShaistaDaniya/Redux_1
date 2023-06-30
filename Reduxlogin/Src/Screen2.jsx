@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { setPhoneNumber } from './actions';
+import { setPhoneNumber } from './Action';
 
 const styles = StyleSheet.create({
   container: {
@@ -109,13 +109,11 @@ const Screen2 = () => {
   return (
     <TouchableOpacity style={styles.container} onPress={handleTap}>
       <View style={styles.container}>
-        <Image
-          style={styles.logo}
-          source={{
-            uri:
-              'https://i0.wp.com/gigandtake.com/wp-content/uploads/2022/12/FINAL-GAT-LOGO-DARK-1.png?fit=5000%2C1429&ssl=1',
-          }}
-        />
+      <Image
+      style={styles.logo}
+      source={require('C:\Users\SHAISTA DANIYA\OneDrive\Desktop\React_Native\Redux_1\Reduxlogin\FINAL-GAT-LOGO-DARK-1-webp-5000×1429-.png')}
+    />
+    
         <PhoneNumberInput />
         <TouchableOpacity
           style={phoneNumber.length === 10 ? styles.activeButton : styles.button}
