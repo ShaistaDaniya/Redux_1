@@ -109,9 +109,9 @@ const Screen2 = () => {
   return (
     <TouchableOpacity style={styles.container} onPress={handleTap}>
       <View style={styles.container}>
-      <Image
+      <Images
       style={styles.logo}
-      source={require('C:\Users\SHAISTA DANIYA\OneDrive\Desktop\React_Native\Redux_1\Reduxlogin\FINAL-GAT-LOGO-DARK-1-webp-5000×1429-.png')}
+      source={require('./FINAL-GAT-LOGO-DARK.png')}
     />
     
         <PhoneNumberInput />
