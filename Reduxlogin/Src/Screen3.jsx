@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Text, View, ActivityIndicator, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { setVerificationStatus } from './Action';
 
 const styles = StyleSheet.create({
   container: {
@@ -13,16 +14,20 @@ const styles = StyleSheet.create({
   },
 });
 
-const Screen3 = () => {
-  const navigation = useNavigation();
+const Screen3 = ({ navigation }) => {
+  const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(setVerificationStatus('verifying'));
+
+    // Verification process
     const timer = setTimeout(() => {
+      dispatch(setVerificationStatus('verified'));
       navigation.navigate('Screen4');
     }, 2000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [dispatch, navigation]);
 
   return (
     <View style={styles.container}>

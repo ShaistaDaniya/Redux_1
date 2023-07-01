@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     width: 223,
     height: 64,
     flex: 0,
-    order: 0,
+  
     flexGrow: 0,
   },
   register: {
