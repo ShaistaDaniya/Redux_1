@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity, Linking } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setScreenAndRegisterStatus } from './Action';
 
 const styles = StyleSheet.create({
   container: {
@@ -11,8 +12,6 @@ const styles = StyleSheet.create({
   logo: {
     width: 223,
     height: 64,
-    flex: 0,
-    order: 0,
     flexGrow: 0,
   },
   enter: {
@@ -85,8 +84,11 @@ const styles = StyleSheet.create({
   },
   resend: {
     fontSize: 16,
-    marginTop: 8,
-    textAlign: 'center',
+    marginLeft: 124,
+    marginRight: 94,
+    marginBottom: 298,
+    width: 'auto',
+    height: 'auto',
   },
   errorText: {
     color: 'red',
@@ -95,8 +97,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const Screen5 = ({ phoneNumber }) => {
+const Screen5 = () => {
   const dispatch = useDispatch();
+  const phoneNumber = useSelector((state) => state.phoneNumber);
+
   const [passcode, setPasscode] = useState(['', '', '', '']);
   const [passcodeError, setPasscodeError] = useState(false);
   const [wrongAttempts, setWrongAttempts] = useState(0);
@@ -112,18 +116,13 @@ const Screen5 = ({ phoneNumber }) => {
     } else if (value && index < passcodeInputs.current.length - 1) {
       passcodeInputs.current[index + 1].focus();
     }
-
-    if (index === 3 && !value && updatedPasscode.join('') === '') {
-      console.log('Passcode is correct. Navigating to next screen...');
-      dispatch(navigateToScreen6());
-    }
   };
 
   const handleVerifyPasscode = () => {
-    const correctPasscode = '1234'; // Replace with your own passcode or we cn generte through firefox
+    const correctPasscode = '1234'; // Replace with your own passcode
     if (passcode.join('') === correctPasscode) {
-      console.log('Passcode is correct. Navigating to next screen...');
-      dispatch(navigateToScreen6());
+      console.log('Passcode is correct. Perform necessary actions...');
+      // Perform necessary actions for correct passcode
     } else {
       setPasscodeError(true);
       setPasscode(['', '', '', '']);
@@ -131,21 +130,24 @@ const Screen5 = ({ phoneNumber }) => {
       setWrongAttempts((prevAttempts) => prevAttempts + 1);
 
       if (wrongAttempts + 1 >= 2) {
-        console.log('Exceeded wrong attempts. Navigating to next screen...');
-        dispatch(navigateToScreen6());
+        console.log('Exceeded wrong attempts. Displaying "Resend code" option...');
+        // I have Implement the resend code functionality here instead of going to next screen
       }
     }
   };
 
   const handleResendCode = () => {
-    console.log('Resend code logic goes here...');
-    // i will be Implementing the logic for resending the passcode to the user's phone number
+    console.log('Resend code functionality triggered...');
+    //I need to  Implement the resend code functionality here (e.g., send a new passcode to the user)
   };
 
   return (
     <View style={styles.container}>
-      <Image style={styles.logo} source={require('./FINAL-GAT-LOGO-DARK.png')} />
-      <Text style={styles.enter}>Enter 4 digit code sent to +91 {phoneNumber}</Text>
+      <Image
+        style={styles.logo}
+        source={require('./FINAL-GAT-LOGO-DARK.png')}
+      />
+      <Text style={styles.enter}>Enter the 4 digit code sent to +91{phoneNumber}</Text>
       <View style={styles.passcodeContainer}>
         {passcode.map((digit, index) => (
           <TextInput
@@ -168,13 +170,11 @@ const Screen5 = ({ phoneNumber }) => {
         style={[styles.button, passcode.join('') === '' ? null : styles.buttonDarkBlue]}
         onPress={handleVerifyPasscode}
       >
-        <Text style={styles.buttonText}>Verify</Text>
+        <Text style={styles.buttonText}>Next</Text>
       </TouchableOpacity>
-      {wrongAttempts >= 2 && (
-        <Text style={styles.resend} onPress={handleResendCode}>
-          Resend code
-        </Text>
-      )}
+      <Text style={styles.resend} onPress={handleResendCode}>
+        Resend code
+      </Text>
     </View>
   );
 };
