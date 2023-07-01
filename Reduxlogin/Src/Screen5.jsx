@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity, Linking } from 'react-native';
+import { useDispatch } from 'react-redux';
 
 const styles = StyleSheet.create({
   container: {
@@ -84,11 +85,8 @@ const styles = StyleSheet.create({
   },
   resend: {
     fontSize: 16,
-    marginLeft: 124,
-    marginRight: 94,
-    marginBottom: 298,
-    width: 'auto',
-    height: 'auto',
+    marginTop: 8,
+    textAlign: 'center',
   },
   errorText: {
     color: 'red',
@@ -97,7 +95,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const Screen5 = ({ navigation, phoneNumber }) => {
+const Screen5 = ({ phoneNumber }) => {
+  const dispatch = useDispatch();
   const [passcode, setPasscode] = useState(['', '', '', '']);
   const [passcodeError, setPasscodeError] = useState(false);
   const [wrongAttempts, setWrongAttempts] = useState(0);
@@ -115,18 +114,16 @@ const Screen5 = ({ navigation, phoneNumber }) => {
     }
 
     if (index === 3 && !value && updatedPasscode.join('') === '') {
-      console.log('Navigating to Screen6');
-      setTimeout(() => {
-        navigation.navigate('Screen6');
-      }, 3000);
+      console.log('Passcode is correct. Navigating to next screen...');
+      dispatch(navigateToScreen6());
     }
   };
 
   const handleVerifyPasscode = () => {
-    const correctPasscode = '1234'; // Replace with your own passcode
+    const correctPasscode = '1234'; // Replace with your own passcode or we cn generte through firefox
     if (passcode.join('') === correctPasscode) {
       console.log('Passcode is correct. Navigating to next screen...');
-      navigation.navigate('Screen6');
+      dispatch(navigateToScreen6());
     } else {
       setPasscodeError(true);
       setPasscode(['', '', '', '']);
@@ -134,18 +131,20 @@ const Screen5 = ({ navigation, phoneNumber }) => {
       setWrongAttempts((prevAttempts) => prevAttempts + 1);
 
       if (wrongAttempts + 1 >= 2) {
-        console.log('Exceeded wrong attempts. Navigating to Screen6...');
-        navigation.navigate('Screen6');
+        console.log('Exceeded wrong attempts. Navigating to next screen...');
+        dispatch(navigateToScreen6());
       }
     }
   };
 
+  const handleResendCode = () => {
+    console.log('Resend code logic goes here...');
+    // i will be Implementing the logic for resending the passcode to the user's phone number
+  };
+
   return (
     <View style={styles.container}>
-      <Image
-        style={styles.logo}
-        source={require('./FINAL-GAT-LOGO-DARK.png')}
-      />
+      <Image style={styles.logo} source={require('./FINAL-GAT-LOGO-DARK.png')} />
       <Text style={styles.enter}>Enter 4 digit code sent to +91 {phoneNumber}</Text>
       <View style={styles.passcodeContainer}>
         {passcode.map((digit, index) => (
@@ -171,7 +170,11 @@ const Screen5 = ({ navigation, phoneNumber }) => {
       >
         <Text style={styles.buttonText}>Verify</Text>
       </TouchableOpacity>
-      <Text style={styles.resend} onPress={() => Linking.openURL('http://www.example.com')}>Resend code</Text>
+      {wrongAttempts >= 2 && (
+        <Text style={styles.resend} onPress={handleResendCode}>
+          Resend code
+        </Text>
+      )}
     </View>
   );
 };
