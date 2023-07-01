@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     width: 223,
     height: 64,
     flex: 0,
-    
+    order: 0,
     flexGrow: 0,
   },
   register: {
@@ -106,31 +106,6 @@ const Screen2 = () => {
     dispatch(setPhoneNumber(phoneNumber));
   }, [dispatch, phoneNumber]);
 
-  return (
-    <TouchableOpacity style={styles.container} onPress={handleTap}>
-      <View style={styles.container}>
-      <Image
-      style={styles.logo}
-      source={require('./FINAL-GAT-LOGO-DARK.png')}
-    />
-    
-        <PhoneNumberInput />
-        <TouchableOpacity
-          style={phoneNumber.length === 10 ? styles.activeButton : styles.button}
-          onPress={handleNextButton}
-          disabled={phoneNumber.length !== 10}
-        >
-          <Text style={styles.buttonText}>Next</Text>
-        </TouchableOpacity>
-      </View>
-    </TouchableOpacity>
-  );
-};
-
-const PhoneNumberInput = () => {
-  const dispatch = useDispatch();
-  const phoneNumber = useSelector((state) => state.phoneNumber);
-
   const handlePhoneNumberChange = (text) => {
     const formattedNumber = text.replace(/[^0-9]/g, '');
     dispatch(setPhoneNumber(formattedNumber));
@@ -142,25 +117,40 @@ const PhoneNumberInput = () => {
   };
 
   return (
-    <View style={styles.regview}>
-      <Text style={styles.register}>Your Registered Phone Number:</Text>
-      <TextInput
-        style={styles.num}
-        keyboardType="phone-pad"
-        placeholder="Enter phone number"
-        value={phoneNumber}
-        onChangeText={handlePhoneNumberChange}
-        maxLength={10}
-      />
-      <Text style={styles.text}>
-        By proceeding, you consent to get SMS messages including by automated means, from Gig and Take and its affiliates
-        to the phone number provided
-      </Text>
-      <Text style={styles.Need}>Need help?</Text>
-      <Text style={styles.supportText} onPress={handleSupportTextPress}>
-        Contact for support
-      </Text>
-    </View>
+    <TouchableOpacity style={styles.container} onPress={handleTap}>
+      <View style={styles.container}>
+        <Image
+          style={styles.logo}
+          source={require('./FINAL-GAT-LOGO-DARK.png')}
+        />
+        <View style={styles.regview}>
+          <Text style={styles.register}>Your Registered Phone Number:</Text>
+          <TextInput
+            style={styles.num}
+            keyboardType="phone-pad"
+            placeholder="Enter phone number"
+            value={phoneNumber}
+            onChangeText={handlePhoneNumberChange}
+            maxLength={10}
+          />
+          <TouchableOpacity
+            style={phoneNumber.length === 10 ? styles.activeButton : styles.button}
+            onPress={handleNextButton}
+            disabled={phoneNumber.length !== 10}
+          >
+            <Text style={styles.buttonText}>Next</Text>
+          </TouchableOpacity>
+          <Text style={styles.text}>
+            By proceeding, you consent to get SMS messages including by automated means, from Gig and Take and its affiliates
+            to the phone number provided
+          </Text>
+          <Text style={styles.Need}>Need help?</Text>
+          <Text style={styles.supportText} onPress={handleSupportTextPress}>
+            Contact for support
+          </Text>
+        </View>
+      </View>
+    </TouchableOpacity>
   );
 };
 
