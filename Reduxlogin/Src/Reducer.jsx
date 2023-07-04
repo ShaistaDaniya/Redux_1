@@ -1,8 +1,11 @@
+import { combineReducers } from 'redux';
+import APIReducer from './APIReducer';
+
 const initialState = {
   phoneNumber: '',
 };
 
-const reducer = (state = initialState, action) => {
+const appReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'SET_PHONE_NUMBER':
       return {
@@ -13,5 +16,12 @@ const reducer = (state = initialState, action) => {
       return state;
   }
 };
+
+const reducer = combineReducers({
+  app: appReducer,
+  api: APIReducer,
+});
+
+
 
 export default reducer;
