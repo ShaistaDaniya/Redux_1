@@ -8,21 +8,17 @@ import Screen2 from './Screen2';
 import Screen3 from './Screen3';
 import Screen4 from './Screen4';
 import Screen5 from './Screen5';
-import { getDataMethod } from './Action';
+import { useApi } from './api';
+
 const Stack = createNativeStackNavigator();
+
 const App = () => {
-  const dispatch = useDispatch();
-  const dataFromApi = useSelector(state => state.ApiReducer);
-  console.log("dataFromRedux" + JSON.stringify(dataFromApi));
+  const api = useApi();
+
   useEffect(() => {
-    getData();
-  }, []);
-  const getData = async () => {
-    const res = await fetch('https://fakestoreapi.com/products ');
-    const data = await res.json();
-    console.log('data ' + JSON.stringify(data));
-    dispatch(getDataMethod(data))
-  };
+    api.fetchData();
+  }, [api]);
+
   return (
     <Provider store={store}>
       <NavigationContainer>
