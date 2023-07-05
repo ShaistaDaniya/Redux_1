@@ -106,6 +106,7 @@ const Screen4 = ({ navigation }) => {
 
   const handleNextButton = () => {
     dispatch(setScreenAndRegisterStatus('Screen2', 'registered'));
+    navigation.navigate('Screen2'); // Navigate to Screen2
   };
 
   const handleSupportTextPress = () => {
@@ -119,36 +120,38 @@ const Screen4 = ({ navigation }) => {
         style={styles.logo}
         source={require('./FINAL-GAT-LOGO-DARK.png')}
       />
-      <PhoneNumberInput phoneNumber={phoneNumber} handleNextButton={handleNextButton} handleSupportTextPress={handleSupportTextPress} />
-    </View>
-  );
-};
-
-const PhoneNumberInput = ({ phoneNumber, handleNextButton, handleSupportTextPress }) => {
-  return (
-    <View style={styles.regview}>
-      <Text style={styles.register}>
-        Your mobile number +91 {phoneNumber} is not registered with us!
-      </Text>
-      <Text style={styles.txt}>
-        We have currently enrolled limited people. If you are interested in getting flexible factory jobs, please register
-        your interest and we will get back to you
-      </Text>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button1} onPress={handleNextButton}>
-          <Text style={styles.buttonText1}>Return To Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button2} onPress={handleNextButton}>
-          <Text style={styles.buttonText2}>Register Now</Text>
-        </TouchableOpacity>
-      </View>
-
-      <Text style={styles.Need}>Need help?</Text>
-      <Text style={styles.supportText} onPress={handleSupportTextPress}>
-        Contact for support
-      </Text>
-    </View>
-  );
-};
-
-export default Screen4;
+      <PhoneNumberInput phoneNumber={phoneNumber} handleNextButton={
+        handleNextButton} handleSupportTextPress={handleSupportTextPress} />
+        </View>
+      );
+    };
+    
+    const PhoneNumberInput = ({ phoneNumber, handleNextButton, handleSupportTextPress }) => {
+      return (
+        <View style={styles.regview}>
+          <Text style={styles.register}>
+            Your mobile number +91 {phoneNumber} is not registered with us!
+          </Text>
+          <Text style={styles.txt}>
+            We have currently enrolled limited people. If you are interested in getting flexible factory jobs, please register
+            your interest and we will get back to you
+          </Text>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.button1} onPress={handleNextButton}>
+              <Text style={styles.buttonText1}>Return To Login</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button2} onPress={handleNextButton}>
+              <Text style={styles.buttonText2}>Register Now</Text>
+            </TouchableOpacity>
+          </View>
+    
+          <Text style={styles.Need}>Need help?</Text>
+          <Text style={styles.supportText} onPress={handleSupportTextPress}>
+            Contact for support
+          </Text>
+        </View>
+      );
+    };
+    
+    export default Screen4;
+    

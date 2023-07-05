@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity, Linking } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { setScreenAndRegisterStatus } from './Action';
+import { connect } from 'react-redux';
+import { verifyPasscode, navigateToScreen6 } from './redux/actions';
 
 const styles = StyleSheet.create({
   container: {
@@ -12,6 +12,8 @@ const styles = StyleSheet.create({
   logo: {
     width: 223,
     height: 64,
+    flex: 0,
+    order: 0,
     flexGrow: 0,
   },
   enter: {
@@ -97,13 +99,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const Screen5 = () => {
-  const dispatch = useDispatch();
-  const phoneNumber = useSelector((state) => state.phoneNumber);
-
+const Screen5 = ({ passcode, passcodeError, wrongAttempts, verifyPasscode, navigateToScreen6 }) => {
   const [passcode, setPasscode] = useState(['', '', '', '']);
-  const [passcodeError, setPasscodeError] = useState(false);
-  const [wrongAttempts, setWrongAttempts] = useState(0);
   const passcodeInputs = useRef([]);
 
   const handlePasscodeChange = (index, value) => {
@@ -116,38 +113,26 @@ const Screen5 = () => {
     } else if (value && index < passcodeInputs.current.length - 1) {
       passcodeInputs.current[index + 1].focus();
     }
-  };
 
-  const handleVerifyPasscode = () => {
-    const correctPasscode = '1234'; // Replace with your own passcode
-    if (passcode.join('') === correctPasscode) {
-      console.log('Passcode is correct. Perform necessary actions...');
-      // Perform necessary actions for correct passcode
-    } else {
-      setPasscodeError(true);
-      setPasscode(['', '', '', '']);
-      passcodeInputs.current[0].focus();
-      setWrongAttempts((prevAttempts) => prevAttempts + 1);
-
-      if (wrongAttempts + 1 >= 2) {
-        console.log('Exceeded wrong attempts. Displaying "Resend code" option...');
-        // I have Implement the resend code functionality here instead of going to next screen
-      }
+    if (index === 3 && !value && updatedPasscode.join('') === '') {
+      console.log('Navigating to Screen6');
+      setTimeout(() => {
+        navigateToScreen6();
+      }, 3000);
     }
   };
 
-  const handleResendCode = () => {
-    console.log('Resend code functionality triggered...');
-    //I need to  Implement the resend code functionality here (e.g., send a new passcode to the user)
+  const handleVerifyPasscode = () => {
+    verifyPasscode();
   };
 
   return (
     <View style={styles.container}>
-      <Image
-        style={styles.logo}
-        source={require('./FINAL-GAT-LOGO-DARK.png')}
-      />
-      <Text style={styles.enter}>Enter the 4 digit code sent to +91{phoneNumber}</Text>
+    <Image
+    style={styles.logo}
+    source={require('./FINAL-GAT-LOGO-DARK.png')}
+     />
+      <Text style={styles.enter}>Enter the passcode</Text>
       <View style={styles.passcodeContainer}>
         {passcode.map((digit, index) => (
           <TextInput
@@ -170,13 +155,22 @@ const Screen5 = () => {
         style={[styles.button, passcode.join('') === '' ? null : styles.buttonDarkBlue]}
         onPress={handleVerifyPasscode}
       >
-        <Text style={styles.buttonText}>Next</Text>
+        <Text style={styles.buttonText}>Verify</Text>
       </TouchableOpacity>
-      <Text style={styles.resend} onPress={handleResendCode}>
-        Resend code
-      </Text>
+      <Text style={styles.resend} onPress={() => Linking.openURL('http://www.example.com')}>Resend code</Text>
     </View>
   );
 };
 
-export default Screen5;
+const mapStateToProps = (state) => ({
+  passcode: state.passcode,
+  passcodeError: state.passcodeError,
+  wrongAttempts: state.wrongAttempts,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  verifyPasscode: () => dispatch(verifyPasscode()),
+  navigateToScreen6: () => dispatch(navigateToScreen6()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Screen5);

@@ -1,3 +1,4 @@
+// Actions
 export const setPhoneNumber = (phoneNumber) => {
   return {
     type: 'SET_PHONE_NUMBER',
@@ -25,7 +26,16 @@ export const setVerificationStatus = (status) => {
     payload: status,
   };
 };
-export const getDataMethod = data => ({
+
+export const getDataMethod = (data) => ({
   type: 'GET_DATA',
   payload: data,
 });
+
+export const verifyPasscode = () => {
+  return { type: 'VERIFY_PASSCODE' };
+};
+
+export const navigateToScreen6 = () => {
+  return { type: 'NAVIGATE_TO_SCREEN_6' };
+};
